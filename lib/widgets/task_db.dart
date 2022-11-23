@@ -16,7 +16,7 @@ class DbHelper {
   // creating a database with name test.db in your directory
   Future<Database> _initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _dbName + ".db");
+    String path = join(documentsDirectory.path, "$_dbName.db");
     var database = await openDatabase(path, version: 1, onCreate: _onCreate);
     return database;
   }
@@ -24,14 +24,14 @@ class DbHelper {
   void _onCreate(Database db, int version) async {
     // when creating the db, create the table
     await db.execute(
-        "CREATE TABLE " + _dbName + "(id INTEGER PRIMARY KEY, name TEXT, seconds INTEGER )");
+        "CREATE TABLE $_dbName(id INTEGER PRIMARY KEY, name TEXT, seconds INTEGER )");
   }
 
   Future<int> insertTask(TaskData taskData) async {
     var dbClient = await db;
     // the number of SQL entries with the same name
     var count = Sqflite.firstIntValue(await dbClient!.rawQuery(
-        "SELECT COUNT(*) FROM " + _dbName + " WHERE name = ?", [taskData.name]));
+        "SELECT COUNT(*) FROM $_dbName WHERE name = ?", [taskData.name]));
     // the task is already in the database
     if (count! > 0) {
       // return an error code
@@ -49,7 +49,7 @@ class DbHelper {
     var dbClient = await db;
     // the number of SQL entries with the same name
     var count = Sqflite.firstIntValue(await dbClient!.rawQuery(
-        "SELECT COUNT(*) FROM " + _dbName + " WHERE id = ?", [taskData.id]));
+        "SELECT COUNT(*) FROM $_dbName WHERE id = ?", [taskData.id]));
     // the task is already in the database
     if (count! > 0) {
       // update the task data
@@ -68,7 +68,7 @@ class DbHelper {
     var dbClient = await db;
     // the number of SQL entries with the same name
     var count = Sqflite.firstIntValue(await dbClient!.rawQuery(
-        "SELECT COUNT(*) FROM " + _dbName + " WHERE name = ?", [taskData.name]));
+        "SELECT COUNT(*) FROM $_dbName WHERE name = ?", [taskData.name]));
 
     // the task is already in the database
     if (count! > 0) {

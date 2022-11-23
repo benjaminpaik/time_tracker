@@ -93,7 +93,7 @@ class TaskListModel extends ChangeNotifier {
         _storePrefs(_selectedTask!.name);
         // set the selected task color and timer
         _selectedTask!.color = Colors.greenAccent;
-        _timer = Timer.periodic(Duration(seconds: 1), _timerCallback);
+        _timer = Timer.periodic(const Duration(seconds: 1), _timerCallback);
       }
       // the task is being unselected
       else {
@@ -162,7 +162,7 @@ class TaskListModel extends ChangeNotifier {
 
     if(_selectedTask != null) {
       _selectedTask!.color = Colors.greenAccent;
-      _timer = Timer.periodic(Duration(seconds: 1), _timerCallback);
+      _timer = Timer.periodic(const Duration(seconds: 1), _timerCallback);
     }
     notifyListeners();
   }
@@ -195,15 +195,15 @@ class TaskModel {
     int minutes = seconds ~/ Duration.secondsPerMinute;
     seconds -= (minutes * Duration.secondsPerMinute);
 
-    String time = hours.toString() + ":";
-    time += (_formatTimeUnit(minutes) + ":");
+    String time = "$hours:";
+    time += ("${_formatTimeUnit(minutes)}:");
     time += (_formatTimeUnit(seconds));
     return time;
   }
 
   // setters
   set name(String name) {
-    this._name = name;
+    _name = name;
     _updates++;
   }
 
@@ -221,7 +221,7 @@ class TaskModel {
 String _formatTimeUnit(int unit) {
   String formattedUnit = unit.toString();
   if (formattedUnit.length == 1) {
-    formattedUnit = "0" + formattedUnit;
+    formattedUnit = "0$formattedUnit";
   }
   return formattedUnit;
 }
